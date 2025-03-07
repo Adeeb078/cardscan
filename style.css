@@ -1,6 +1,6 @@
 body {
     font-family: 'Arial', sans-serif;
-    background: linear-gradient(to right, #6a11cb, #2575fc);
+    background: #eaeaea;
     color: white;
     display: flex;
     justify-content: center;
@@ -13,7 +13,9 @@ body {
 
 .container {
     text-align: center;
-    background: rgba(255, 255, 255, 0.1);
+    font-size: 11px;
+    color: rgb(31, 31, 31);
+    background: rgb(250, 250, 250);
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
@@ -21,8 +23,13 @@ body {
     max-width: 400px;
 }
 
+.img {
+    width: 10%;
+    height: 250px;
+}
+
 button {
-    background: #ff7eb3;
+    background: #30a128;
     border: none;
     padding: 10px 20px;
     font-size: 18px;
@@ -36,15 +43,16 @@ button {
 }
 
 button:hover {
-    background: #ff4d6d;
+    background: #32ff24;
 }
 
 #scanner-container {
-    width: 100%;
+    width: 50%;
     max-width: 320px;
-    height: 320px;
-    background: white;
+    height: 150px;
+    background: #eaeaea;
     margin-top: 20px;
+    margin-left: 25%;
     display: none;
     border-radius: 10px;
 }
