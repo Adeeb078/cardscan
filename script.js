@@ -16,7 +16,7 @@ document.getElementById("scan-btn").addEventListener("click", function() {
 });
 
 function fetchFromGoogleSheets(qrCode) {
-    fetch(`https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec?code=${qrCode}`)
+    fetch(`https://script.google.com/macros/s/1D4JSP_96upS-5uJdowzWVgqkcdtqC3JkV_EhyXaJBsV-rJSb69fytY6s/exec?code=${qrCode}`)
     .then(response => response.json())
     .then(data => {
         if (data.valid) {
@@ -29,7 +29,7 @@ function fetchFromGoogleSheets(qrCode) {
 }
 
 function updateFare(qrCode) {
-    fetch(`https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec`, {
+    fetch(`https://script.google.com/macros/s/1D4JSP_96upS-5uJdowzWVgqkcdtqC3JkV_EhyXaJBsV-rJSb69fytY6s/exec`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ code: qrCode })
