@@ -1,0 +1,14 @@
+[
+    {
+        "code": "12345",
+        "name": "John Doe",
+        "place": "New York",
+        "fare": 50
+    },
+    {
+        "code": "67890",
+        "name": "Jane Smith",
+        "place": "Los Angeles",
+        "fare": 75
+    }
+]
