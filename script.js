@@ -8,7 +8,7 @@ function fetchFromJSON(qrCode) {
                 <img src="${user.profiles}" width="150">
                 <p><strong>Name:</strong> ${user.name}</p>
                 <p><strong>Place:</strong> ${user.place}</p>
-                <p><strong>Fare:</strong> $${user.fare}</p>
+                <p><strong>Fare:</strong> ₹${user.fare}</p>
             `;
             document.getElementById("popup-container").style.display = "block";
         } else {
