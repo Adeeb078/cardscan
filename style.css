@@ -2,7 +2,7 @@ body {
     font-family: 'Arial', sans-serif;
     background: #eaeaea;
     color: white;
-    display: flex;
+    display: grid;
     justify-content: center;
     align-items: center;
     height: 100vh;
@@ -22,6 +22,19 @@ body {
     width: 90%;
     max-width: 400px;
 }
+
+@media(max-width:678px){
+.container {
+    text-align: center;
+    font-size: 11px;
+    color: rgb(31, 31, 31);
+    background: rgb(250, 250, 250);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 400px;
+}}
 
 .img {
     width: 10%;
