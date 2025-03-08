@@ -9,21 +9,24 @@ qr_folder = "qrcodes"
 if not os.path.exists(qr_folder):
     os.makedirs(qr_folder)
 
-# Data for QR codes (instead of using Google Sheets)
-people = [
-    {"code": "12345", "name": "John Doe", "place": "New York", "fare": 50},
-    {"code": "67890", "name": "Jane Smith", "place": "Los Angeles", "fare": 75}
-]
+# Load data from data.json
+json_file_path = "data.json"
+
+try:
+    with open(json_file_path, "r") as json_file:
+        people = json.load(json_file)  # Load people data from JSON
+except (FileNotFoundError, json.JSONDecodeError):
+    print("Error: data.json not found or invalid. Please check the file.")
+    people = []
 
 # Generate QR code for each person
 for person in people:
-    qr = qrcode.make(person["code"])  # QR stores only the unique code
-    qr_path = f"{qr_folder}/{person['code']}.png"
-    qr.save(qr_path)
-    print(f"QR Code for {person['name']} saved as {qr_path}")
+    if "code" in person:  # Ensure "code" exists
+        qr = qrcode.make(person["code"])  # QR stores only the unique code
+        qr_path = f"{qr_folder}/{person['code']}.png"
+        qr.save(qr_path)
+        print(f"QR Code for {person['name']} saved as {qr_path}")
+    else:
+        print(f"Skipping entry: {person} (No 'code' found)")
 
-# Save data to a JSON file
-with open("data.json", "w") as json_file:
-    json.dump(people, json_file, indent=4)
-
-print("Data saved to data.json")
+print("QR code generation complete!")

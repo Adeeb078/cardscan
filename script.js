@@ -5,7 +5,7 @@ function fetchFromJSON(qrCode) {
         let user = data.find(entry => entry.code === qrCode);
         if (user) {
             document.getElementById("popup").innerHTML = `
-                <img src="${user.qr}" width="150">
+                <img src="${user.profiles}" width="150">
                 <p><strong>Name:</strong> ${user.name}</p>
                 <p><strong>Place:</strong> ${user.place}</p>
                 <p><strong>Fare:</strong> $${user.fare}</p>
