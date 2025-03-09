@@ -2,7 +2,7 @@ body {
     font-family: 'Arial', sans-serif;
     background: #eaeaea;
     color: white;
-    display: grid;
+    display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
@@ -56,11 +56,6 @@ body {
     max-width: 400px;
 }
 
-.img {
-    width: 10%;
-    height: 250px;
-}
-
 button {
     background: #30a128;
     border: none;
@@ -79,13 +74,20 @@ button:hover {
     background: #32ff24;
 }
 
-#scanner-container {
-    width: 50%;
-    max-width: 320px;
-    height: 150px;
-    background: #eaeaea;
-    margin-top: 20px;
-    margin-left: 25%;
-    display: none;
+#qr-box {
+    top: 10px;
+    width: 70%;
+    max-width: 350px;
+    height: auto;
+    margin: auto;
+    border: hidden;
     border-radius: 10px;
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0);
+}
+
+#qr-box video {
+    width: 50%;
+    height: auto;
+    display: block;
 }
