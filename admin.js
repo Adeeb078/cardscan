@@ -46,3 +46,20 @@ function addUser() {
     .then(data => alert(data.message || data.error));
 }
 
+document.getElementById("loginButton").addEventListener("click", function () {
+    let username = document.getElementById("username").value;
+    let password = document.getElementById("password").value;
+
+    fetch("admin.json")
+        .then(response => response.json())
+        .then(data => {
+            if (data.username === username && data.password === password) {
+                alert("Login successful!");
+                sessionStorage.setItem("adminLoggedIn", "true");
+                window.location.href = "dashboard.html"; // Redirect to dashboard
+            } else {
+                alert("Invalid username or password!");
+            }
+        })
+        .catch(error => console.error("Error loading admin credentials:", error));
+});
