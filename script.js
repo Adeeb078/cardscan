@@ -1,39 +1,27 @@
-function fetchFromJSON(qrCode) {
-    fetch("data.json")  // Load the local JSON file
+function scanQRCode(qrCode) {
+    fetch("http://127.0.0.1:5000/scan_qr", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code: qrCode })
+    })
     .then(response => response.json())
     .then(data => {
-        let user = data.find(entry => entry.code === qrCode);
-        if (user) {
-            document.getElementById("popup").innerHTML = `
-                <img src="${user.profiles}" width="150">
-                <p><strong>Name:</strong> ${user.name}</p>
-                <p><strong>Place:</strong> ${user.place}</p>
-                <p><strong>Fare:</strong> ₹${user.fare}</p>
-            `;
-            document.getElementById("popup-container").style.display = "block";
-        } else {
+        if (data.error) {
             alert("Invalid QR Code");
+        } else {
+            document.body.innerHTML += `
+                <div class="popup">
+                    <img src="${data.image}" alt="User Image">
+                    <p>Name: ${data.name}</p>
+                    <p>Place: ${data.place}</p>
+                    <p>Fare: ${data.fare}</p>
+                    <p>Total Fare: ${data.total_fare}</p>
+                    <button onclick="closePopup()">Close</button>
+                </div>`;
         }
-    })
-    .catch(error => console.error("Error loading data:", error));
+    });
 }
 
-document.getElementById("scan-btn").addEventListener("click", function() {
-    let scannerContainer = document.getElementById("scanner-container");
-    scannerContainer.style.display = "block";
-
-    const html5QrCode = new Html5Qrcode("scanner-container");
-    html5QrCode.start(
-        { facingMode: "environment" },
-        { fps: 10, qrbox: 250 },
-        qrCodeMessage => {
-            fetchFromJSON(qrCodeMessage);  // Fetch details after scanning
-            html5QrCode.stop();
-            scannerContainer.style.display = "none";
-        },
-        errorMessage => {
-            console.log("QR Scan Error:", errorMessage);
-        }
-    );
-});
-
+function closePopup() {
+    document.querySelector(".popup").remove();
+}

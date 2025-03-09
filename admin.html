@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <div class="container">
+    <h2>Admin Login</h2>
+    <input type="text" id="username" placeholder="Username">
+    <input type="password" id="password" placeholder="Password">
+    <button onclick="login()">Login</button>
+
+    <div id="admin-dashboard" style="display: none;">
+        <h2>Users</h2>
+        <table id="userTable">
+            <tr><th>Code</th><th>Name</th><th>Place</th><th>Fare</th><th>QR</th></tr>
+        </table>
+
+        <h2>Add User</h2>
+        <form id="addUserForm" enctype="multipart/form-data">
+        <input type="text" id="newCode" name="code" placeholder="Code" required>
+        <input type="text" id="newName" name="name" placeholder="Name" required>
+        <input type="text" id="newPlace" name="place" placeholder="Place" required>
+        <input type="number" id="newFare" name="fare" placeholder="Fare" required>
+        <input type="file" id="newImage" name="image" accept="image/*" required>
+        <button type="button" onclick="addUser()">Add User</button>
+</form>
+
+    </div>
+    </div>
+
+    <script src="admin.js"></script>
+</body>
+</html>

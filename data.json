@@ -1,30 +1,4 @@
-[
-    {
-        "code": "0001",
-        "image": "profiles/0001.jpg",
-        "name": "Karthik PR",
-        "place": "Kuttiady",
-        "fare": 350
-    },
-    {
-        "code": "0002",
-        "image": "profiles/0002.jpg",
-        "name": "Sreenanda Lal TP",
-        "place": "Calicut Town",
-        "fare": 300
-    },
-    {
-        "code": "0003",
-        "image": "profiles/0003.jpg",
-        "name": "Adeeb Abdurahiman",
-        "place": "Atholi",
-        "fare": 150
-    },
-    {
-        "code": "0004",
-        "image": "profiles/0004.jpg",
-        "name": "Mohammed Athiq Ashraf",
-        "place": "Thiruvangoor",
-        "fare": 200
-    }
-]
+{
+    "username": "admin",
+    "password": "123456789"
+}
