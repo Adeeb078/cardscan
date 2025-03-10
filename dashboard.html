@@ -13,6 +13,26 @@
     
     <a href="index.html" class="logout-button">Logout</a>
     </div>
+    <button id="addUserButton" class="admin-btn">Add User</button>
+
+<!-- Add User Form (Hidden Initially) -->
+<div id="addUserForm" class="form-container" style="display: none;">
+    <h2>Add New User</h2>
+    <input type="text" id="userName" placeholder="Enter Name" required>
+    <input type="text" id="userPlace" placeholder="Enter Place" required>
+    <input type="number" id="userFare" placeholder="Enter Fare" required>
+    <input type="file" id="userImage" accept="image/*">
+    <button onclick="submitUser()">Submit</button>
+    <button onclick="closeForm()">Cancel</button>
+</div>
+
+<!-- QR Code Display -->
+<div id="qrCodeContainer" style="display: none;">
+    <h3>Generated QR Code:</h3>
+    <canvas id="qrCanvas"></canvas>
+    <button onclick="downloadQRCode()">Download QR</button>
+</div>
+
 
     <script src="dashboard.js"></script>
 </body>
