@@ -2,3 +2,4 @@ flask
 flask-cors
 qrcode
 gunicorn
+python-dotenv
