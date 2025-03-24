@@ -2,7 +2,11 @@ from flask import Flask, request, jsonify, render_template
 import sqlite3
 import qrcode
 import os
-from flask_cors import cross_origin
+from flask_cors import CORS
+from dotenv import load_dotenv
+
+load_dotenv()  # Load environment variables
+CORS(app, origins=[os.getenv("API_BASE")])
 
 app = Flask(__name__, template_folder="templates", static_folder="static")
 
@@ -55,7 +59,6 @@ def dashboard():
     return render_template("dashboard.html") # Check if 'dashboard.html' exists
 
 @app.route("/add_user", methods=["POST"])
-@cross_origin(origins="https://cardscan-nh7d.onrender.com")
 def add_user():
     data = request.json
     conn = sqlite3.connect(DB_FILE)
