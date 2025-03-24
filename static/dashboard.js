@@ -2,6 +2,7 @@ fetch("/get_api_url")
     .then(response => response.json())
     .then(data => {
         const API_BASE = data.api_url;
+        console.log("API URL Loaded:", API_BASE);
     });
 
 document.addEventListener("DOMContentLoaded", function () {

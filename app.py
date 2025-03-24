@@ -37,9 +37,12 @@ def generate_qr(admission_number):
     qr.save(qr_path)
     return qr_path
 
+if __name__ == "__main__":
+    app.run()
+    
 @app.route('/get_api_url')
 def get_api_url():
-    return {"api_url": os.getenv("API_BASE")}
+    return jsonify({"api_url": os.getenv("API_BASE")})
 
 @app.route("/")
 def home():
