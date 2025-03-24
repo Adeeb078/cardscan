@@ -51,7 +51,7 @@ function loadUsers() {
             users.forEach(user => {
                 const row = document.createElement("tr");
                 row.innerHTML = `
-                    <td><img src="${API_BASE}/qrcodes/${user.admission_number}.png" alt="QR Code" width="50"></td>
+                    <td>${user.admission_number}</td>
                     <td>${user.name}</td>
                     <td>${user.place}</td>
                     <td>${user.branch}</td>
@@ -59,6 +59,7 @@ function loadUsers() {
                     <td>₹${user.fixed_fare}</td>
                     <td>₹${user.total_fare}</td>
                     <td><button onclick="resetFare('${user.admission_number}')">Paid</button></td>
+                    <td><img src="${API_BASE}/qrcodes/${user.admission_number}.png" alt="QR Code" width="50"></td>
                 `;
                 tableBody.appendChild(row);
             });
