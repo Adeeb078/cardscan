@@ -5,10 +5,14 @@ import os
 from flask_cors import CORS
 from dotenv import load_dotenv
 
-load_dotenv()  # Load environment variables
-CORS(app, origins=[os.getenv("API_BASE")])
+# Load environment variables from .env file
+load_dotenv()
+
+# Get API base URL from environment variable
+API_BASE = os.getenv("API_BASE")
 
 app = Flask(__name__, template_folder="templates", static_folder="static")
+CORS(app)
 
 # Ensure QR Code folder exists
 qr_folder = "qrcodes"

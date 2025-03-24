@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", function () {
             fixed_fare: parseInt(document.getElementById("fixed_fare").value)
         };
 
-        fetch(`${API_BASE}/add_user`, {
+        fetch("/add_user", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(userData)
