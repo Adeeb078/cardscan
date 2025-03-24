@@ -9,6 +9,27 @@ fetch("/get_api_url")
     })
     .catch(error => console.error("❌ Failed to load API URL:", error));
 
+    fetch(API_BASE + "/add_user", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(userData),
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();  // Ensure response is valid JSON
+    })
+    .then(data => {
+        if (data.error) throw new Error(data.error);
+        alert("✅ User added successfully!");
+    })
+    .catch(error => {
+        console.error("❌ Error adding user:", error);
+        alert("Error: " + error.message);  // Show proper error message instead of undefined
+    });
+    
+
 document.addEventListener("DOMContentLoaded", function () {
     loadUsers();
 
