@@ -1,13 +1,35 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 import sqlite3
 import qrcode
 import os
 
 app = Flask(__name__)
 
+# Ensure QR Code folder exists
 qr_folder = "qrcodes"
-if not os.path.exists(qr_folder):
-    os.makedirs(qr_folder)
+os.makedirs(qr_folder, exist_ok=True)
+
+# Database initialization
+DB_FILE = "bus_fare.db"
+
+def init_db():
+    conn = sqlite3.connect(DB_FILE)
+    cursor = conn.cursor()
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS users (
+            admission_number TEXT PRIMARY KEY,
+            name TEXT,
+            place TEXT,
+            branch TEXT,
+            semester TEXT,
+            fixed_fare INTEGER,
+            total_fare INTEGER DEFAULT 0
+        )
+    """)
+    conn.commit()
+    conn.close()
+
+init_db()  # Ensure database exists on startup
 
 def generate_qr(admission_number):
     qr_path = f"{qr_folder}/{admission_number}.png"
@@ -15,12 +37,16 @@ def generate_qr(admission_number):
     qr.save(qr_path)
     return qr_path
 
+@app.route("/")
+def home():
+    return render_template("index.html")  # Serve frontend
+
 @app.route("/add_user", methods=["POST"])
 def add_user():
     data = request.json
-    conn = sqlite3.connect("bus_fare.db")
+    conn = sqlite3.connect(DB_FILE)
     cursor = conn.cursor()
-
+    
     cursor.execute("""
         INSERT INTO users (admission_number, name, place, branch, semester, fixed_fare, total_fare)
         VALUES (?, ?, ?, ?, ?, ?, ?)
@@ -37,7 +63,7 @@ def scan_qr():
     data = request.json
     admission_number = data["admission_number"]
 
-    conn = sqlite3.connect("bus_fare.db")
+    conn = sqlite3.connect(DB_FILE)
     cursor = conn.cursor()
 
     cursor.execute("SELECT name, fixed_fare, total_fare FROM users WHERE admission_number = ?", (admission_number,))
@@ -58,7 +84,7 @@ def reset_fare():
     data = request.json
     admission_number = data["admission_number"]
 
-    conn = sqlite3.connect("bus_fare.db")
+    conn = sqlite3.connect(DB_FILE)
     cursor = conn.cursor()
     cursor.execute("UPDATE users SET total_fare = 0 WHERE admission_number = ?", (admission_number,))
     conn.commit()
@@ -67,5 +93,5 @@ def reset_fare():
     return jsonify({"message": "Total fare reset successfully"})
 
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))  # Render provides PORT
+    port = int(os.environ.get("PORT", 10000))  # Render provides PORT
     app.run(host="0.0.0.0", port=port, debug=True)
