@@ -3,7 +3,7 @@ import sqlite3
 import qrcode
 import os
 
-app = Flask(__name__, template_folder="templates")
+app = Flask(__name__, template_folder="templates", static_folder="static")
 
 # Ensure QR Code folder exists
 qr_folder = "qrcodes"
