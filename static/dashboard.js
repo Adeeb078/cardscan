@@ -1,9 +1,13 @@
+let API_BASE = "";
+
 fetch("/get_api_url")
     .then(response => response.json())
     .then(data => {
-        const API_BASE = data.api_url;
+        API_BASE = data.api_url;
         console.log("API URL Loaded:", API_BASE);
-    });
+        loadUsers(); // Ensure users load only after API is set
+    })
+    .catch(error => console.error("Failed to load API URL:", error));
 
 document.addEventListener("DOMContentLoaded", function () {
     loadUsers();
@@ -74,4 +78,16 @@ function resetFare(admissionNumber) {
         loadUsers();
     })
     .catch(error => console.error("Error resetting fare:", error));
+}
+
+document.getElementById("logout").addEventListener("click", function () {
+    window.location.href = "/"; // Redirect back to main page
+});
+
+// Redirect to login if admin is not logged in
+if (window.location.pathname.includes("/dashboard")) {
+    if (sessionStorage.getItem("adminLoggedIn") !== "true") {
+        alert("Please login first!");
+        window.location.href = "/admin";
+    }
 }
