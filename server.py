@@ -41,6 +41,14 @@ def generate_qr(admission_number):
 def home():
     return render_template("index.html")  # Serve frontend
 
+@app.route("/admin")
+def admin():
+    return render_template("admin.html")  # Check if 'admin.html' exists
+
+@app.route("/dashboard")
+def dashboard():
+    return render_template("dashboard.html")
+
 @app.route("/add_user", methods=["POST"])
 def add_user():
     data = request.json
