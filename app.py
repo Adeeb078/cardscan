@@ -2,10 +2,9 @@ from flask import Flask, request, jsonify, render_template
 import sqlite3
 import qrcode
 import os
-from flask_cors import CORS
+from flask_cors import cross_origin
 
 app = Flask(__name__, template_folder="templates", static_folder="static")
-CORS(app)  # Enable CORS for all routes
 
 # Ensure QR Code folder exists
 qr_folder = "qrcodes"
@@ -56,6 +55,7 @@ def dashboard():
     return render_template("dashboard.html") # Check if 'dashboard.html' exists
 
 @app.route("/add_user", methods=["POST"])
+@cross_origin(origins="https://cardscan-nh7d.onrender.com")
 def add_user():
     data = request.json
     conn = sqlite3.connect(DB_FILE)
