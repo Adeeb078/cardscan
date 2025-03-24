@@ -2,10 +2,8 @@ from flask import Flask, request, jsonify, render_template
 import sqlite3
 import qrcode
 import os
-from flask_cors import CORS
 
 app = Flask(__name__, template_folder="templates", static_folder="static")
-CORS(app)
 
 # Ensure QR Code folder exists
 qr_folder = "qrcodes"
@@ -38,6 +36,10 @@ def generate_qr(admission_number):
     qr = qrcode.make(admission_number)
     qr.save(qr_path)
     return qr_path
+
+@app.route('/get_api_url')
+def get_api_url():
+    return {"api_url": os.getenv("API_BASE")}
 
 @app.route("/")
 def home():

@@ -1,4 +1,8 @@
-const API_BASE = "https://cardscan-nh7d.onrender.com"; // Your actual Render API URL
+fetch("/get_api_url")
+    .then(response => response.json())
+    .then(data => {
+        const API_BASE = data.api_url;
+    });
 
 document.addEventListener("DOMContentLoaded", function () {
     loadUsers();
