@@ -4,31 +4,10 @@ fetch("/get_api_url")
     .then(response => response.json())
     .then(data => {
         API_BASE = data.api_url;
-        console.log("✅ API URL Loaded:", API_BASE);
-        loadUsers(); // Load users only after API is set
+        console.log("API URL Loaded:", API_BASE);
+        loadUsers(); // Ensure users load only after API is set
     })
-    .catch(error => console.error("❌ Failed to load API URL:", error));
-
-    fetch(API_BASE + "/add_user", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(userData),
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        return response.json();  // Ensure response is valid JSON
-    })
-    .then(data => {
-        if (data.error) throw new Error(data.error);
-        alert("✅ User added successfully!");
-    })
-    .catch(error => {
-        console.error("❌ Error adding user:", error);
-        alert("Error: " + error.message);  // Show proper error message instead of undefined
-    });
-    
+    .catch(error => console.error("Failed to load API URL:", error));
 
 document.addEventListener("DOMContentLoaded", function () {
     loadUsers();
@@ -104,11 +83,3 @@ function resetFare(admissionNumber) {
 document.getElementById("logout").addEventListener("click", function () {
     window.location.href = "/"; // Redirect back to main page
 });
-
-// Redirect to login if admin is not logged in
-if (window.location.pathname.includes("/dashboard")) {
-    if (sessionStorage.getItem("adminLoggedIn") !== "true") {
-        alert("Please login first!");
-        window.location.href = "/admin";
-    }
-}
