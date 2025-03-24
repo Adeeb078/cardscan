@@ -16,20 +16,20 @@ document.getElementById("loginButton").addEventListener("click", function () {
     if (storedData.username === username && storedData.password === password) {
         alert("Login successful!");
         sessionStorage.setItem("adminLoggedIn", "true");
-        window.location.href = "{{ url_for('dashboard') }}"; // Redirect to dashboard
+        window.location.href = "/dashboard"; // Redirect to dashboard
     } else {
         alert("Invalid username or password!");
     }
 });
 
 document.getElementById("canButton").addEventListener("click", function () {
-    window.location.href = "{{ url_for('index') }}"; // Redirect back to main page
+    window.location.href = "/"; // Redirect back to main page
 });
 
 // Redirect to login if admin is not logged in
 if (window.location.pathname.includes("/dashboard")) {
     if (sessionStorage.getItem("adminLoggedIn") !== "true") {
         alert("Please login first!");
-        window.location.href = "{{ url_for('admin') }}";
+        window.location.href = "/admin";
     }
 }
