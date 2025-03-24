@@ -2,8 +2,10 @@ from flask import Flask, request, jsonify, render_template
 import sqlite3
 import qrcode
 import os
+from flask_cors import CORS
 
 app = Flask(__name__, template_folder="templates", static_folder="static")
+CORS(app)
 
 # Ensure QR Code folder exists
 qr_folder = "qrcodes"
@@ -47,7 +49,7 @@ def admin():
 
 @app.route("/dashboard")
 def dashboard():
-    return render_template("dashboard.html")
+    return render_template("dashboard.html") # Check if 'dashboard.html' exists
 
 @app.route("/add_user", methods=["POST"])
 def add_user():
