@@ -4,10 +4,10 @@ fetch("/get_api_url")
     .then(response => response.json())
     .then(data => {
         API_BASE = data.api_url;
-        console.log("API URL Loaded:", API_BASE);
-        loadUsers(); // Ensure users load only after API is set
+        console.log("✅ API URL Loaded:", API_BASE);
+        loadUsers(); // Load users only after API is set
     })
-    .catch(error => console.error("Failed to load API URL:", error));
+    .catch(error => console.error("❌ Failed to load API URL:", error));
 
 document.addEventListener("DOMContentLoaded", function () {
     loadUsers();
