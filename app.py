@@ -59,31 +59,6 @@ def dashboard():
 @app.route("/add_user", methods=["POST"])
 def add_user():
     try:
-        data = request.json  # Ensure JSON is received
-        if not data:
-            return jsonify({"error": "Invalid JSON data"}), 400  # Bad Request
-
-        conn = sqlite3.connect(DB_FILE)
-        cursor = conn.cursor()
-        
-        cursor.execute("""
-            INSERT INTO users (admission_number, name, place, branch, semester, fixed_fare, total_fare)
-            VALUES (?, ?, ?, ?, ?, ?, ?)
-        """, (data["admission_number"], data["name"], data["place"], data["branch"], data["semester"], data["fixed_fare"], 0))
-
-        conn.commit()
-        conn.close()
-
-        qr_path = generate_qr(data["admission_number"])  # Ensure generate_qr works
-        return jsonify({"message": "User added successfully", "qr_path": qr_path})
-
-    except Exception as e:
-        print(f"❌ Error in /add_user: {e}")  # Log the error
-        return jsonify({"error": "Internal Server Error"}), 500  # Return proper error response
-
-@app.route("/add_user", methods=["POST"])
-def add_user():
-    try:
         data = request.json  # Ensure valid JSON request
         if not data:
             return jsonify({"error": "Invalid JSON data"}), 400  
