@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QR Code Scanner</title>
-    <link rel="stylesheet" href="style.css">
     <script src="https://unpkg.com/html5-qrcode/minified/html5-qrcode.min.js"></script>
-    <script src="script.js" defer></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     <div class="container">
-        <img src="mdit.png" style="width:150px; height:150px;">
+        <img src="{{ url_for('static', filename='mdit.png') }}" alt="Logo" style="width:150px; height:150px;">
         <div id="qr-box">
             <h1>Scan QR Code</h1>
             <button id="scanButton">Start Scan</button>
