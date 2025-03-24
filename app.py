@@ -2,11 +2,13 @@ from flask import Flask, request, jsonify, render_template
 import sqlite3
 import qrcode
 import os
+from flask_cors import CORS  # Add this import
 
 # Load API URL from Render environment variables
 API_BASE = os.getenv("API_BASE")
 
 app = Flask(__name__, template_folder="templates", static_folder="static")
+CORS(app)  # Enable CORS for all routes
 
 # Ensure QR Code folder exists
 qr_folder = "qrcodes"
