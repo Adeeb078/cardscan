@@ -9,7 +9,6 @@ qr_folder = "qrcodes"
 if not os.path.exists(qr_folder):
     os.makedirs(qr_folder)
 
-# Generate QR code
 def generate_qr(admission_number):
     qr_path = f"{qr_folder}/{admission_number}.png"
     qr = qrcode.make(admission_number)
@@ -30,7 +29,6 @@ def add_user():
     conn.commit()
     conn.close()
 
-    # Generate and return the QR code path
     qr_path = generate_qr(data["admission_number"])
     return jsonify({"message": "User added successfully", "qr_path": qr_path})
 
@@ -69,4 +67,5 @@ def reset_fare():
     return jsonify({"message": "Total fare reset successfully"})
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))  # Render provides PORT
+    app.run(host="0.0.0.0", port=port, debug=True)
