@@ -2,7 +2,6 @@ from flask import Flask, request, jsonify, render_template
 import sqlite3
 import qrcode
 import os
-from flask_cors import CORS
 
 # Load API URL from Render environment variables
 API_BASE = os.getenv("API_BASE")
@@ -11,6 +10,8 @@ if API_BASE:
     print(f"✅ API_BASE Loaded from Render: {API_BASE}")
 else:
     print("❌ ERROR: API_BASE environment variable not found in Render!")
+
+app = Flask(__name__, template_folder="templates", static_folder="static")
 
 # Ensure QR Code folder exists
 qr_folder = "qrcodes"
@@ -44,9 +45,9 @@ def generate_qr(admission_number):
     qr.save(qr_path)
     return qr_path
 
-@app.route("/get_api_url")
+@app.route('/get_api_url')
 def get_api_url():
-    return jsonify({"api_url": API_BASE or "NOT_SET"})  # Return "NOT_SET" if missing
+    return jsonify({"api_url": os.getenv("API_BASE")})
 
 @app.route("/")
 def home():
