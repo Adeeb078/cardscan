@@ -12,15 +12,15 @@
     <div class="container">
         <img src="mdit.png" style="width:150px; height:150px;">
         <div id="qr-box">
-            <h1>Scan QR Code</h1></div>
-        <button id="scanButton">Scan QR Code</button>
+            <h1>Scan QR Code</h1>
+            <button id="scanButton">Start Scan</button>
+        </div>
 
-
-        <!-- Popup for showing details -->
+        <!-- Popup for scan result -->
         <div id="popup-container" style="display: none;">
-        <div id="popup"></div>
-        <button onclick="document.getElementById('popup-container').style.display='none'">Close</button>
-</div>
+            <div id="popup"></div>
+            <button onclick="document.getElementById('popup-container').style.display='none'">Close</button>
+        </div>
     </div>
     <a href="admin.html" class="admin-button">Admin Login</a>
 </body>

@@ -1,76 +1,72 @@
-from flask import Flask, jsonify, request, send_file
+from flask import Flask, request, jsonify
 import sqlite3
-import os
 import qrcode
+import os
 
 app = Flask(__name__)
-UPLOAD_FOLDER = "images/"
-os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
-# Function to add user and save image
+qr_folder = "qrcodes"
+if not os.path.exists(qr_folder):
+    os.makedirs(qr_folder)
+
+# Generate QR code
+def generate_qr(admission_number):
+    qr_path = f"{qr_folder}/{admission_number}.png"
+    qr = qrcode.make(admission_number)
+    qr.save(qr_path)
+    return qr_path
+
 @app.route("/add_user", methods=["POST"])
 def add_user():
-    code = request.form["code"]
-    name = request.form["name"]
-    place = request.form["place"]
-    fare = request.form["fare"]
-    
-    # Handle image upload
-    if "image" not in request.files:
-        return jsonify({"error": "No image uploaded"}), 400
-    
-    image = request.files["image"]
-    image_path = f"{UPLOAD_FOLDER}{code}.jpg"
-    image.save(image_path)
-
-    # Insert into database
-    conn = sqlite3.connect("database.db")
+    data = request.json
+    conn = sqlite3.connect("bus_fare.db")
     cursor = conn.cursor()
-    
-    try:
-        cursor.execute("INSERT INTO users (code, name, place, fare, total_fare, image) VALUES (?, ?, ?, ?, ?, ?)",
-                       (code, name, place, fare, 0, image_path))
-        conn.commit()
 
-        # Generate QR code
-        qr = qrcode.make(code)
-        qr.save(f"qrcodes/{code}.png")
+    cursor.execute("""
+        INSERT INTO users (admission_number, name, place, branch, semester, fixed_fare, total_fare)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+    """, (data["admission_number"], data["name"], data["place"], data["branch"], data["semester"], data["fixed_fare"], 0))
 
-        return jsonify({"message": "User added successfully", "qr_path": f"qrcodes/{code}.png"})
-    except:
-        return jsonify({"error": "User already exists"}), 400
-    finally:
-        conn.close()
+    conn.commit()
+    conn.close()
 
-# Fetch user data when scanning QR
+    # Generate and return the QR code path
+    qr_path = generate_qr(data["admission_number"])
+    return jsonify({"message": "User added successfully", "qr_path": qr_path})
+
 @app.route("/scan_qr", methods=["POST"])
 def scan_qr():
     data = request.json
-    qr_code = data.get("code")
+    admission_number = data["admission_number"]
 
-    conn = sqlite3.connect("database.db")
+    conn = sqlite3.connect("bus_fare.db")
     cursor = conn.cursor()
-    cursor.execute("SELECT name, place, fare, total_fare, image FROM users WHERE code = ?", (qr_code,))
+
+    cursor.execute("SELECT name, fixed_fare, total_fare FROM users WHERE admission_number = ?", (admission_number,))
     user = cursor.fetchone()
 
     if user:
-        name, place, fare, total_fare, image = user
-        new_total_fare = total_fare + fare
-
-        cursor.execute("UPDATE users SET total_fare = ? WHERE code = ?", (new_total_fare, qr_code))
+        new_total = user[2] + user[1]
+        cursor.execute("UPDATE users SET total_fare = ? WHERE admission_number = ?", (new_total, admission_number))
         conn.commit()
         conn.close()
+        return jsonify({"message": f"Scanned {user[0]} successfully", "total_fare": new_total})
+    
+    conn.close()
+    return jsonify({"error": "QR Code not found"}), 404
 
-        return jsonify({
-            "name": name,
-            "place": place,
-            "fare": fare,
-            "total_fare": new_total_fare,
-            "image": image
-        })
-    else:
-        conn.close()
-        return jsonify({"error": "Invalid QR Code"}), 404
+@app.route("/reset_fare", methods=["POST"])
+def reset_fare():
+    data = request.json
+    admission_number = data["admission_number"]
+
+    conn = sqlite3.connect("bus_fare.db")
+    cursor = conn.cursor()
+    cursor.execute("UPDATE users SET total_fare = 0 WHERE admission_number = ?", (admission_number,))
+    conn.commit()
+    conn.close()
+
+    return jsonify({"message": "Total fare reset successfully"})
 
 if __name__ == "__main__":
     app.run(debug=True)

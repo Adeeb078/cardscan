@@ -5,26 +5,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
     <link rel="stylesheet" href="style.css">
-    <script src="data.js"></script>
-    <script src="script.js"></script>
+    <script src="dashboard.js" defer></script>
 </head>
 <body>
     <div class="container">
-    <h1>Admin Dashboard</h1>
-    <table id="userTable">
-        <thead>
-            <tr>
-                <th>QR Code</th>
-                <th>Name</th>
-                <th>Place</th>
-                <th>Fare</th>
-                <th>Total Fare</th>
-                <th>Image</th>
-            </tr>
-        </thead>
-        <tbody></tbody>
-    </table>
-    <a href="index.html" class="logout-button">Logout</a>
+        <h1>Admin Dashboard</h1>
+        <button id="addUserButton">Add User</button>
+
+        <table id="userTable">
+            <thead>
+                <tr>
+                    <th>QR Code</th>
+                    <th>Name</th>
+                    <th>Place</th>
+                    <th>Branch</th>
+                    <th>Semester</th>
+                    <th>Fixed Fare</th>
+                    <th>Total Fare</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+
+        <a href="index.html" class="logout-button">Logout</a>
+    </div>
+
+    <!-- Add User Popup -->
+    <div id="addUserPopup" class="popup" style="display:none;">
+        <div class="popup-content">
+            <h2>Add User</h2>
+            <input type="text" id="admission_number" placeholder="Admission Number" required>
+            <input type="text" id="name" placeholder="Name" required>
+            <input type="text" id="place" placeholder="Place" required>
+            <input type="text" id="branch" placeholder="Branch" required>
+            <input type="text" id="semester" placeholder="Semester" required>
+            <input type="number" id="fixed_fare" placeholder="Fixed Fare" required>
+            <button id="submitUser">Submit</button>
+            <button onclick="document.getElementById('addUserPopup').style.display='none'">Cancel</button>
+        </div>
     </div>
 </body>
 </html>
