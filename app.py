@@ -152,7 +152,8 @@ def scan_qr():
     user = cursor.fetchone()
 
     if user:
-        new_total = user[1] if user[2] == 0 else user[2] + user[1]
+        print(f"Before Update -> Admission: {admission_number}, Fixed Fare: {user[1]}, Total Fare: {user[2]}")
+        new_total = user[2] + user[1]
         cursor.execute("UPDATE users SET total_fare = ? WHERE admission_number = ?", (new_total, admission_number))
         conn.commit()
         conn.close()
