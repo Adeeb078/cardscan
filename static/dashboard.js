@@ -12,7 +12,7 @@ fetch("/get_api_url")
 fetch("/get_site_url")
     .then(response => response.json())
     .then(data => {
-        SITE_UBA = data.api_url;
+        SITE_UBA = data.site_url;
         loadUsers(); // Ensure users load only after API is set
     })
     .catch(error => console.error("Failed to load API URL:", error));
