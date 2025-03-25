@@ -13,8 +13,7 @@ app = Flask(__name__, template_folder="templates", static_folder="static")
 CORS(app, resources={r"/*": {"origins": "https://cardscan-nh7d.onrender.com"}})
 
 # Ensure QR Code folder exists
-qr_folder = "qrcodes"
-os.makedirs(qr_folder, exist_ok=True)
+qr_folder = os.path.join("static", "qrcodes") 
 
 # Database initialization
 DB_FILE = "bus_fare.db"
