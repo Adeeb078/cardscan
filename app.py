@@ -58,6 +58,28 @@ def admin():
 def dashboard():
     return render_template("dashboard.html") # Check if 'dashboard.html' exists
 
+@app.route("/get_users", methods=["GET"])
+def get_users():
+    conn = sqlite3.connect(DB_FILE)
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM users")
+    users = cursor.fetchall()
+    conn.close()
+    
+    users_list = [
+        {
+            "admission_number": user[0],
+            "name": user[1],
+            "place": user[2],
+            "branch": user[3],
+            "semester": user[4],
+            "fixed_fare": user[5],
+            "total_fare": user[6]
+        }
+        for user in users
+    ]
+    return jsonify(users_list)
+
 @app.route("/add_user", methods=["POST"])
 def add_user():
     try:
