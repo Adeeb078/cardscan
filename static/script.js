@@ -1,10 +1,8 @@
-const API_BASE = "https://cardscan-nh7d.onrender.com"; // Replace with your actual Render API URL
-
 document.getElementById("scanButton").addEventListener("click", function () {
     const qrScanner = new Html5QrcodeScanner("qr-box", { fps: 10, qrbox: 250 });
 
     qrScanner.render(decodedText => {
-        fetch(`${API_BASE}/scan_qr`, {
+        fetch(`/scan_qr`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ admission_number: decodedText })
