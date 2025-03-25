@@ -41,6 +41,22 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
+function deleteUser(admissionNumber) {
+    if (!confirm("Are you sure you want to delete this user?")) return;
+
+    fetch(`${API_BASE}/delete_user`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ admission_number: admissionNumber })
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert(data.message);
+        loadUsers(); // Refresh the user list
+    })
+    .catch(error => console.error("Error deleting user:", error));
+}
+
 function loadUsers() {
     fetch(`${API_BASE}/get_users`)
         .then(response => response.json())
@@ -80,22 +96,6 @@ function resetFare(admissionNumber) {
         loadUsers();
     })
     .catch(error => console.error("Error resetting fare:", error));
-}
-
-function deleteUser(admissionNumber) {
-    if (!confirm("Are you sure you want to delete this user?")) return;
-
-    fetch(`${API_BASE}/delete_user`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ admission_number: admissionNumber })
-    })
-    .then(response => response.json())
-    .then(data => {
-        alert(data.message);
-        loadUsers(); // Refresh the user list
-    })
-    .catch(error => console.error("Error deleting user:", error));
 }
 
 document.getElementById("logout").addEventListener("click", function () {
