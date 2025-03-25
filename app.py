@@ -129,15 +129,21 @@ def scan_qr():
 @app.route("/reset_fare", methods=["POST"])
 def reset_fare():
     data = request.json
-    admission_number = data["admission_number"]
+    admission_number = data.get("admission_number")
+
+    if not admission_number:
+        return jsonify({"error": "Missing admission number"}), 400
 
     conn = sqlite3.connect(DB_FILE)
     cursor = conn.cursor()
+
+    # Reset total fare to 0
     cursor.execute("UPDATE users SET total_fare = 0 WHERE admission_number = ?", (admission_number,))
     conn.commit()
     conn.close()
 
-    return jsonify({"message": "Total fare reset successfully"})
+    return jsonify({"message": "Fare reset successfully"})
+
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 10000))  # Render provides PORT
