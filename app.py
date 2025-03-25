@@ -45,8 +45,8 @@ def generate_qr(admission_number):
     
     return f"/static/qrcodes/{admission_number}.png"  # Return relative path
 
-@app.route('/static/qrcodes/<path:filename>')
-def serve_qr(filename):
+@app.route('/qrcodes/<path:filename>')
+def serve_qr_code(filename):
     return send_from_directory("static/qrcodes", filename)
 
 @app.route('/get_api_url')

@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", function () {
 function deleteUser(admissionNumber) {
     if (!confirm("Are you sure you want to delete this user?")) return;
 
-    fetch(`${API_BASE}/delete_user`, {
+    fetch("/delete_user", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ admission_number: admissionNumber })
@@ -85,7 +85,7 @@ function loadUsers() {
 }
 
 function resetFare(admissionNumber) {
-    fetch(`${API_BASE}/reset_fare`, {
+    fetch("/reset_fare", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ admission_number: admissionNumber })
