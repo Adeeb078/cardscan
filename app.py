@@ -8,7 +8,9 @@ from flask_cors import CORS  # Add this import
 API_BASE = os.getenv("API_BASE")
 
 app = Flask(__name__, template_folder="templates", static_folder="static")
-CORS(app)  # Enable CORS for all routes
+
+# Allow only your frontend domain
+CORS(app, resources={r"/*": {"origins": "https://cardscan-nh7d.onrender.com"}})
 
 # Ensure QR Code folder exists
 qr_folder = "qrcodes"
