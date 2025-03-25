@@ -139,7 +139,6 @@ def delete_user():
 
     return jsonify({"message": "User deleted successfully"})
 
-
 @app.route("/scan_qr", methods=["POST"])
 def scan_qr():
     data = request.json
@@ -152,8 +151,7 @@ def scan_qr():
     user = cursor.fetchone()
 
     if user:
-        print(f"Before Update -> Admission: {admission_number}, Fixed Fare: {user[1]}, Total Fare: {user[2]}")
-        new_total = user[2] + user[1]
+        new_total = (user[2] if user[2] else 0) + user[1]
         cursor.execute("UPDATE users SET total_fare = ? WHERE admission_number = ?", (new_total, admission_number))
         conn.commit()
         conn.close()
