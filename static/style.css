@@ -10,7 +10,7 @@ body {
 /* Container */
 .container {
     width: 90%;
-    max-width: 450px;  /* Adjusted for mobile */
+    max-width: 550px;  /* Adjusted for mobile */
     margin: 20px auto;
     padding: 20px;
     background: white;
@@ -54,7 +54,7 @@ button:hover {
 
 /* Tables (Responsive) */
 table {
-    width: 100%;
+    width: 150%;
     border-collapse: collapse;
     margin-top: 20px;
     overflow-x: auto;
