@@ -36,8 +36,12 @@ def init_db():
 
 init_db()  # Ensure database exists on startup
 
+qr_folder = "qrcodes"
+
 def generate_qr(admission_number):
-    qr_path = f"{qr_folder}/{admission_number}.png"
+    qr_path = os.path.join(qr_folder, f"{admission_number}.png")
+    if not os.path.exists(qr_folder):
+        os.makedirs(qr_folder)
     qr = qrcode.make(admission_number)
     qr.save(qr_path)
     return qr_path
@@ -144,6 +148,23 @@ def reset_fare():
 
     return jsonify({"message": "Fare reset successfully"})
 
+@app.route("/delete_user", methods=["POST"])
+def delete_user():
+    data = request.json
+    admission_number = data.get("admission_number")
+
+    if not admission_number:
+        return jsonify({"error": "Missing admission number"}), 400
+
+    conn = sqlite3.connect(DB_FILE)
+    cursor = conn.cursor()
+
+    # Delete the user
+    cursor.execute("DELETE FROM users WHERE admission_number = ?", (admission_number,))
+    conn.commit()
+    conn.close()
+
+    return jsonify({"message": "User deleted successfully"})
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 10000))  # Render provides PORT

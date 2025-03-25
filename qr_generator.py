@@ -8,7 +8,9 @@ if not os.path.exists(qr_folder):
     os.makedirs(qr_folder)
 
 def generate_qr(admission_number):
-    qr_path = f"{qr_folder}/{admission_number}.png"
+    qr_path = os.path.join(qr_folder, f"{admission_number}.png")
+    if not os.path.exists(qr_folder):
+        os.makedirs(qr_folder)
     qr = qrcode.make(admission_number)
     qr.save(qr_path)
     return qr_path

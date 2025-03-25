@@ -59,7 +59,8 @@ function loadUsers() {
                     <td>₹${user.fixed_fare}</td>
                     <td>₹${user.total_fare}</td>
                     <td><button onclick="resetFare('${user.admission_number}')">Paid</button></td>
-                    <td><img src="${API_BASE}/qrcodes/${user.admission_number}.png" alt="QR Code" width="50"></td>
+                    <td><img src="${API_BASE}/qrcodes/${user.admission_number}.png" alt="QR Code" width="50"></td> 
+                    <td><button onclick="deleteUser('${user.admission_number}')">Delete</button></td>
                 `;
                 tableBody.appendChild(row);
             });
@@ -79,6 +80,22 @@ function resetFare(admissionNumber) {
         loadUsers();
     })
     .catch(error => console.error("Error resetting fare:", error));
+}
+
+function deleteUser(admissionNumber) {
+    if (!confirm("Are you sure you want to delete this user?")) return;
+
+    fetch(`${API_BASE}/delete_user`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ admission_number: admissionNumber })
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert(data.message);
+        loadUsers(); // Refresh the user list
+    })
+    .catch(error => console.error("Error deleting user:", error));
 }
 
 document.getElementById("logout").addEventListener("click", function () {
