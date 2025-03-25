@@ -4,7 +4,6 @@ fetch("/get_api_url")
     .then(response => response.json())
     .then(data => {
         API_BASE = data.api_url;
-        console.log("API URL Loaded:", API_BASE);
         loadUsers(); // Ensure users load only after API is set
     })
     .catch(error => console.error("Failed to load API URL:", error));
@@ -58,7 +57,7 @@ function deleteUser(admissionNumber) {
 }
 
 function loadUsers() {
-    fetch(`${API_BASE}/get_users`)
+    fetch("/get_users")
         .then(response => response.json())
         .then(users => {
             const tableBody = document.querySelector("#userTable tbody");
