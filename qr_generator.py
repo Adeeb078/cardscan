@@ -3,7 +3,8 @@ import sqlite3
 import os
 
 # Folder to store QR codes
-qr_folder = "qrcodes"
+qr_folder = "static/qrcodes"
+
 if not os.path.exists(qr_folder):
     os.makedirs(qr_folder)
 

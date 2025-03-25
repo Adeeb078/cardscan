@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify, render_template, send_from_directory
 import sqlite3
 import qrcode
 import os
@@ -36,15 +36,18 @@ def init_db():
 
 init_db()  # Ensure database exists on startup
 
-qr_folder = "qrcodes"
-
 def generate_qr(admission_number):
     qr_path = os.path.join(qr_folder, f"{admission_number}.png")
-    if not os.path.exists(qr_folder):
-        os.makedirs(qr_folder)
+    os.makedirs(qr_folder, exist_ok=True)  # Ensure folder exists
+
     qr = qrcode.make(admission_number)
     qr.save(qr_path)
-    return qr_path
+    
+    return f"/static/qrcodes/{admission_number}.png"  # Return relative path
+
+@app.route('/static/qrcodes/<path:filename>')
+def serve_qr(filename):
+    return send_from_directory("static/qrcodes", filename)
 
 @app.route('/get_api_url')
 def get_api_url():
