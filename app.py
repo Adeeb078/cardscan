@@ -6,6 +6,7 @@ from flask_cors import CORS  # Add this import
 
 # Load API URL from Render environment variables
 API_BASE = os.getenv("API_BASE")
+SITE_UBA = os.getenv("SITE_UBA")
 
 app = Flask(__name__, template_folder="templates", static_folder="static")
 
@@ -53,6 +54,10 @@ def serve_qr_code(filename):
 @app.route('/get_api_url')
 def get_api_url():
     return jsonify({"api_url": os.getenv("API_BASE")})
+
+@app.route('/get_site_url')
+def get_api_url():
+    return jsonify({"api_url": os.getenv("SITE_UBA")})
 
 @app.route("/")
 def home():
