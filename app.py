@@ -108,11 +108,9 @@ def add_user():
         conn.commit()
         conn.close()
         
-        try:
-            qr_path = generate_qr(data["admission_number"])
-        except Exception as qr_error:
-            print(f"❌ Error generating QR code: {qr_error}")
-            return jsonify({"error": "Failed to generate QR code"}), 500
+        qr_path = generate_qr(data["admission_number"])
+        print(f"✅ QR Code saved at: {qr_path}")
+
         return jsonify({"message": "User added successfully", "qr_path": qr_path})
 
     except Exception as e:
