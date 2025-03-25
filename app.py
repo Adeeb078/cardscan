@@ -83,7 +83,8 @@ def get_users():
             "branch": user[3],
             "semester": user[4],
             "fixed_fare": user[5],
-            "total_fare": user[6]
+            "total_fare": user[6],
+            "qr_code": f"{request.host_url}static/qrcodes/{user[0]}.png"  # Add QR code URL
         }
         for user in users
     ]
