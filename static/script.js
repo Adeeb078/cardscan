@@ -1,6 +1,9 @@
 document.getElementById("scanButton").addEventListener("click", function () {
-    const qrScanner = new Html5QrcodeScanner("qr-box", { fps: 10, qrbox: 250 });
+    const qrBox = document.getElementById("qr-box");
+    qrBox.innerHTML = ""; // Clear previous content
 
+    const qrScanner = new Html5QrcodeScanner("qr-box", { fps: 10, qrbox: 250 });
+    
     qrScanner.render(decodedText => {
         fetch(`/scan_qr`, {
             method: "POST",
@@ -15,10 +18,12 @@ document.getElementById("scanButton").addEventListener("click", function () {
                 showPopup("Success", `Scanned ${data.message}`, "green");
             }
             qrScanner.clear();
+            qrBox.innerHTML = `<h1>Scan QR Code</h1><button id="scanButton">Start Scan</button>`;
         })
         .catch(() => {
             showPopup("Error", "Invalid QR Code!", "red");
             qrScanner.clear();
+            qrBox.innerHTML = `<h1>Scan QR Code</h1><button id="scanButton">Start Scan</button>`;
         });
     });
 });
