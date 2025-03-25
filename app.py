@@ -56,8 +56,8 @@ def get_api_url():
     return jsonify({"api_url": os.getenv("API_BASE")})
 
 @app.route('/get_site_url')
-def get_api_url():
-    return jsonify({"api_url": os.getenv("SITE_UBA")})
+def get_site_url():
+    return jsonify({"site_url": os.getenv("SITE_UBA")})
 
 @app.route("/")
 def home():
