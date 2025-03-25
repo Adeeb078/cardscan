@@ -101,13 +101,36 @@ def add_user():
 
         conn.commit()
         conn.close()
-
-        qr_path = generate_qr(data["admission_number"])  # Ensure generate_qr works
+        
+        try:
+            qr_path = generate_qr(data["admission_number"])
+        except Exception as qr_error:
+            print(f"❌ Error generating QR code: {qr_error}")
+            return jsonify({"error": "Failed to generate QR code"}), 500
         return jsonify({"message": "User added successfully", "qr_path": qr_path})
 
     except Exception as e:
         print(f"❌ Error in /add_user: {e}")  # Log the error
         return jsonify({"error": "Internal Server Error"}), 500  # Return proper error response
+
+@app.route("/delete_user", methods=["POST"])
+def delete_user():
+    data = request.json
+    admission_number = data.get("admission_number")
+
+    if not admission_number:
+        return jsonify({"error": "Missing admission number"}), 400
+
+    conn = sqlite3.connect(DB_FILE)
+    cursor = conn.cursor()
+
+    # Delete the user
+    cursor.execute("DELETE FROM users WHERE admission_number = ?", (admission_number,))
+    conn.commit()
+    conn.close()
+
+    return jsonify({"message": "User deleted successfully"})
+
 
 @app.route("/scan_qr", methods=["POST"])
 def scan_qr():
@@ -147,24 +170,6 @@ def reset_fare():
     conn.close()
 
     return jsonify({"message": "Fare reset successfully"})
-
-@app.route("/delete_user", methods=["POST"])
-def delete_user():
-    data = request.json
-    admission_number = data.get("admission_number")
-
-    if not admission_number:
-        return jsonify({"error": "Missing admission number"}), 400
-
-    conn = sqlite3.connect(DB_FILE)
-    cursor = conn.cursor()
-
-    # Delete the user
-    cursor.execute("DELETE FROM users WHERE admission_number = ?", (admission_number,))
-    conn.commit()
-    conn.close()
-
-    return jsonify({"message": "User deleted successfully"})
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 10000))  # Render provides PORT
