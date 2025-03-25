@@ -30,15 +30,16 @@ body {
     top: 15px;
     right: 15px;
     padding: 10px 15px;
-    background-color: #17a2b8;
+    background-color: #007bff;
     color: white;
     text-decoration: none;
+    cursor: pointer;
     border-radius: 5px;
     font-size: 14px;
 }
 
 .admin-button:hover {
-    background-color: #138496;
+    background-color: #0056b3;
 }
 
 /* Buttons */
