@@ -1,9 +1,18 @@
 let API_BASE = "";
+let SITE_UBA = "";
 
 fetch("/get_api_url")
     .then(response => response.json())
     .then(data => {
         API_BASE = data.api_url;
+        loadUsers(); // Ensure users load only after API is set
+    })
+    .catch(error => console.error("Failed to load API URL:", error));
+
+fetch("/get_site_url")
+    .then(response => response.json())
+    .then(data => {
+        SITE_UBA = data.api_url;
         loadUsers(); // Ensure users load only after API is set
     })
     .catch(error => console.error("Failed to load API URL:", error));
@@ -74,7 +83,7 @@ function loadUsers() {
                     <td>₹${user.fixed_fare}</td>
                     <td>₹${user.total_fare}</td>
                     <td><button onclick="resetFare('${user.admission_number}')">Paid</button></td>
-                    <td><img src="${API_BASE}/static/qrcodes/${user.admission_number}.png" alt="QR Code" width="50"></td>
+                    <td><img src="${SITE_UBA}/static/qrcodes/${user.admission_number}.png" alt="QR Code" width="50"></td>
                     <td><button onclick="deleteUser('${user.admission_number}')">Delete</button></td>
                 `;
                 tableBody.appendChild(row);
