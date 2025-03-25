@@ -75,7 +75,7 @@ function loadUsers() {
                     <td>₹${user.fixed_fare}</td>
                     <td>₹${user.total_fare}</td>
                     <td><button onclick="resetFare('${user.admission_number}')">Paid</button></td>
-                    <td><img src="${API_BASE}/qrcodes/${user.admission_number}.png" alt="QR Code" width="50"></td> 
+                    <td><img src="${API_BASE}/static/qrcodes/${user.admission_number}.png" alt="QR Code" width="50"></td>
                     <td><button onclick="deleteUser('${user.admission_number}')">Delete</button></td>
                 `;
                 tableBody.appendChild(row);

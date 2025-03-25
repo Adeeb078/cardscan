@@ -3,6 +3,7 @@ import sqlite3
 import qrcode
 import os
 from flask_cors import CORS  # Add this import
+from qr_generator import generate_qr  # Ensure you import from qr_generator.py
 
 # Load API URL from Render environment variables
 API_BASE = os.getenv("API_BASE")
@@ -35,16 +36,6 @@ def init_db():
     conn.close()
 
 init_db()  # Ensure database exists on startup
-
-qr_folder = "qrcodes"
-
-def generate_qr(admission_number):
-    qr_path = os.path.join(qr_folder, f"{admission_number}.png")
-    if not os.path.exists(qr_folder):
-        os.makedirs(qr_folder)
-    qr = qrcode.make(admission_number)
-    qr.save(qr_path)
-    return qr_path
 
 @app.route('/get_api_url')
 def get_api_url():
@@ -102,11 +93,9 @@ def add_user():
         conn.commit()
         conn.close()
         
-        try:
-            qr_path = generate_qr(data["admission_number"])
-        except Exception as qr_error:
-            print(f"❌ Error generating QR code: {qr_error}")
-            return jsonify({"error": "Failed to generate QR code"}), 500
+        qr_path = generate_qr(data["admission_number"])
+        qr_url = f"{request.host_url}static/qrcodes/{data['admission_number']}.png"  # Correct URL format
+
         return jsonify({"message": "User added successfully", "qr_path": qr_path})
 
     except Exception as e:
