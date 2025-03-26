@@ -4,12 +4,14 @@ document.getElementById("scanButton").addEventListener("click", function () {
 
     const qrScanner = new Html5QrcodeScanner("qr-box", { fps: 10, qrbox: 250 });
     
-    qrScanner.render(decodedText => {
+    qrScanner.render((decodedText, decodedResult) => {
+        qrScanner.clear(); // Stop scanning immediately after first successful scan
+    
         fetch(`/scan_qr`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ admission_number: decodedText })
-        })
+        })    
         .then(response => response.json())
         .then(data => {
             if (data.error) {
