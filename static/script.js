@@ -19,29 +19,34 @@ document.getElementById("scanButton").addEventListener("click", function () {
             }
             qrScanner.clear();
             qrBox.innerHTML = `<h1>Scan QR Code</h1><button id="scanButton">Start Scan</button>`;
+            // Reattach the scan button event listener
+            document.getElementById("scanButton").addEventListener("click", arguments.callee);
         })
         .catch(() => {
             showPopup("Error", "Invalid QR Code!", "red");
             qrScanner.clear();
             qrBox.innerHTML = `<h1>Scan QR Code</h1><button id="scanButton">Start Scan</button>`;
+        
+            document.getElementById("scanButton").addEventListener("click", arguments.callee);
         });
     });
 });
 
 function showPopup(title, message, color) {
-    const popup = document.getElementById("popup");
-    if (!popup) return; // Ensure popup exists
+    let popup = document.getElementById("popup");
+    if (!popup) return;
 
     popup.innerHTML = `
-        <div class="popup-content">
-            <h2 style="color: ${color};">${title}</h2>
+        <div class="popup-content" style="border: 2px solid ${color};">
+            <h2 style="color: ${color}; margin: 0;">${title}</h2>
             <p>${message}</p>
         </div>`;
+    
     popup.style.display = "block";
 
     setTimeout(() => {
         popup.style.display = "none";
-    }, 3000); // Hide after 3 seconds
+    }, 3000); // Auto-hide after 3 seconds
 }
 
 function closePopup() {

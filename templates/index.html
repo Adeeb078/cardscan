@@ -17,10 +17,10 @@
 
         <!-- Popup for scan result -->
         <div id="popup-container" style="display: none;">
-            <div id="popup" class="popup"></div>
             <button onclick="document.getElementById('popup-container').style.display='none'">Close</button>
         </div>
     </div>
+    <div id="popup" class="popup"></div>
     <a href="{{ url_for('admin') }}" class="admin-button">Admin Login</a>
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
