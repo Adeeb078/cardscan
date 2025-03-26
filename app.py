@@ -151,10 +151,11 @@ def scan_qr():
     user = cursor.fetchone()
 
     if user:
-        new_total = (user[2] if user[2] else 0) + user[1]
+        new_total = user[2] + user[1]
         cursor.execute("UPDATE users SET total_fare = ? WHERE admission_number = ?", (new_total, admission_number))
         conn.commit()
         conn.close()
+        print(f"✅message": f"Scanned {user[0]} successfully")
         return jsonify({"message": f"Scanned {user[0]} successfully", "total_fare": new_total})
     
     conn.close()
