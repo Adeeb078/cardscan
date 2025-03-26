@@ -2,7 +2,7 @@ document.getElementById("scanButton").addEventListener("click", function () {
     const qrBox = document.getElementById("qr-box");
     qrBox.innerHTML = ""; // Clear previous content
 
-    const qrScanner = new Html5QrcodeScanner("qr-box", { fps: 10, qrbox: 250 });
+    const qrScanner = new Html5QrcodeScanner("qr-box", { fps: 5, qrbox: 250 });
     
     qrScanner.render((decodedText, decodedResult) => {
         qrScanner.clear(); // Stop scanning immediately after first successful scan
