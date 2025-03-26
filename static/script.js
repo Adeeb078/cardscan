@@ -29,6 +29,7 @@ document.getElementById("scanButton").addEventListener("click", function () {
 });
 
 function showPopup(title, message, color) {
+    const popupContainer = document.getElementById("popup-container");
     const popup = document.getElementById("popup");
     popup.innerHTML = `
         <div class="popup-content">
