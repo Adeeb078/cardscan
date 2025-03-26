@@ -29,8 +29,9 @@ document.getElementById("scanButton").addEventListener("click", function () {
 });
 
 function showPopup(title, message, color) {
-    const popupContainer = document.getElementById("popup-container");
     const popup = document.getElementById("popup");
+    if (!popup) return; // Ensure popup exists
+
     popup.innerHTML = `
         <div class="popup-content">
             <h2 style="color: ${color};">${title}</h2>

@@ -94,6 +94,7 @@ th {
     display: none;
     text-align: center;
     border: 2px solid #007bff;
+    z-index: 1000; /* Ensure it appears above other elements */
 }
 
 .popup-content {
