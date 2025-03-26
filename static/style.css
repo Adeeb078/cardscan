@@ -10,7 +10,7 @@ body {
 /* Container */
 .container {
     width: 90%;
-    max-width: 450px;  /* Adjusted for mobile */
+    max-width: 375px;  /* Adjusted for mobile */
     margin: auto;
     padding: 20px;
     background: white;
