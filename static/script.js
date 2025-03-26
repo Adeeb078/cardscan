@@ -32,9 +32,16 @@ document.getElementById("scanButton").addEventListener("click", async function (
 // 📌 Function to get back camera ID
 async function getBackCameraId() {
     const devices = await navigator.mediaDevices.enumerateDevices();
-    const backCamera = devices.find(
-        (device) => device.kind === "videoinput" && device.label.toLowerCase().includes("back")
+    let backCamera = devices.find(
+        (device) => device.kind === "videoinput" && /back|rear/i.test(device.label)
     );
+
+    // If no explicitly labeled back camera is found, use the last video input (assumed back)
+    if (!backCamera && devices.filter(d => d.kind === "videoinput").length > 1) {
+        const videoInputs = devices.filter(d => d.kind === "videoinput");
+        backCamera = videoInputs[videoInputs.length - 1]; // Pick the last camera (usually back)
+    }
+
     return backCamera ? backCamera.deviceId : null;
 }
 
