@@ -29,13 +29,17 @@ document.getElementById("scanButton").addEventListener("click", function () {
 });
 
 function showPopup(title, message, color) {
-    const popupContainer = document.getElementById("popup-container");
     const popup = document.getElementById("popup");
+    popup.innerHTML = `
+        <div class="popup-content">
+            <h2 style="color: ${color};">${title}</h2>
+            <p>${message}</p>
+        </div>`;
+    popup.style.display = "block";
 
-    popup.innerHTML = `<h2>${title}</h2><p>${message}</p>`;
-    popup.style.backgroundColor = color;
-
-    popupContainer.style.display = "block"; // Show the popup container
+    setTimeout(() => {
+        popup.style.display = "none";
+    }, 3000); // Hide after 3 seconds
 }
 
 function closePopup() {
