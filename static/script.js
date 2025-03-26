@@ -15,7 +15,7 @@ document.getElementById("scanButton").addEventListener("click", function () {
             if (data.error) {
                 showPopup("Error", "Invalid QR Code!", "red");
             } else {
-                showPopup("Success", `Scanned ${data.message}`, "green");
+                showPopup("Success", `${data.message}`, "green");
             }
             qrScanner.clear();
             qrBox.innerHTML = `<h1>Scan QR Code</h1><button id="scanButton">Start Scan</button>`;
@@ -33,22 +33,27 @@ document.getElementById("scanButton").addEventListener("click", function () {
 });
 
 function showPopup(title, message, color) {
-    let popup = document.getElementById("popup");
-    if (!popup) return;
+    const popup = document.getElementById("popup");
+    const popupTitle = document.getElementById("popup-title");
+    const popupMessage = document.getElementById("popup-message");
+    const loadingBar = document.getElementById("loading-bar-container");
 
-    popup.innerHTML = `
-        <div class="popup-content" style="border: 2px solid ${color};">
-            <h2 style="color: ${color}; margin: 0;">${title}</h2>
-            <p>${message}</p>
-        </div>`;
-    
+    popupTitle.textContent = title;
+    popupMessage.textContent = message;
+    popup.style.backgroundColor = color;
     popup.style.display = "block";
+    loadingBar.style.display = "block";
 
+    // Start the reverse loading animation
+    const progressBar = document.getElementById("loading-bar");
+    progressBar.style.width = "100%";  // Start full
+    setTimeout(() => {
+        progressBar.style.width = "0%";  // Shrink to empty in 2s
+    }, 10);
+
+    // Hide popup after 2 seconds
     setTimeout(() => {
         popup.style.display = "none";
-    }, 3000); // Auto-hide after 3 seconds
-}
-
-function closePopup() {
-    document.querySelector(".popup").remove();
+        loadingBar.style.display = "none";
+    }, 2000);
 }

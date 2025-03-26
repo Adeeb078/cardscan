@@ -20,7 +20,10 @@
             <button onclick="document.getElementById('popup-container').style.display='none'">Close</button>
         </div>
     </div>
-    <div id="popup" class="popup"></div>
+    <div id="popup" class="popup"><div id="loading-bar-container">
+        <div id="loading-bar"></div>
+    </div>
+    </div>
     <a href="{{ url_for('admin') }}" class="admin-button">Admin Login</a>
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
