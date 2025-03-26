@@ -33,27 +33,18 @@ document.getElementById("scanButton").addEventListener("click", function () {
 });
 
 function showPopup(title, message, color) {
-    const popup = document.getElementById("popup");
-    const popupTitle = document.getElementById("popup-title");
-    const popupMessage = document.getElementById("popup-message");
-    const loadingBar = document.getElementById("loading-bar-container");
+    let popup = document.getElementById("popup");
+    if (!popup) return;
 
-    popupTitle.textContent = title;
-    popupMessage.textContent = message;
-    popup.style.backgroundColor = color;
+    popup.innerHTML = `
+        <div class="popup-content" style="border: 2px solid ${color};">
+            <h2 style="color: ${color}; margin: 0;">${title}</h2>
+            <p>${message}</p>
+        </div>`;
+    
     popup.style.display = "block";
-    loadingBar.style.display = "block";
 
-    // Start the reverse loading animation
-    const progressBar = document.getElementById("loading-bar");
-    progressBar.style.width = "100%";  // Start full
-    setTimeout(() => {
-        progressBar.style.width = "0%";  // Shrink to empty in 2s
-    }, 10);
-
-    // Hide popup after 2 seconds
     setTimeout(() => {
         popup.style.display = "none";
-        loadingBar.style.display = "none";
-    }, 2000);
+    }, 2000); // Auto-hide after 2 seconds
 }
