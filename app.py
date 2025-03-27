@@ -47,6 +47,24 @@ def generate_qr(admission_number):
     
     return f"/static/qrcodes/{admission_number}.png"  # Return relative path
 
+def add_default_users():
+    conn = sqlite3.connect(DB_FILE)
+    cursor = conn.cursor()
+
+    default_users = [
+        ("222001", "Aaron", "Vengeri", "CSE", 8, 250, 0),
+        ("222002", "Jose", "Kuttyadi", "ECE", 4, 300, 0),
+        ("222003", "Samariya", "Koomully", "IT", 6, 150, 0)
+    ]
+
+    for user in default_users:
+        cursor.execute("SELECT * FROM users WHERE admission_number = ?", (user[0],))
+        if not cursor.fetchone():
+            cursor.execute("INSERT INTO users VALUES (?, ?, ?, ?, ?, ?, ?)", user)
+
+    conn.commit()
+    conn.close()
+
 @app.route('/qrcodes/<path:filename>')
 def serve_qr_code(filename):
     return send_from_directory("static/qrcodes", filename)
@@ -178,6 +196,8 @@ def reset_fare():
     conn.close()
 
     return jsonify({"message": "Fare reset successfully"})
+
+add_default_users()
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 10000))  # Render provides PORT
